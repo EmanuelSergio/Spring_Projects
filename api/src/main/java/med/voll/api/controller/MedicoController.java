@@ -35,7 +35,7 @@ public class MedicoController {
                         .findAll(paginacao)
                         .map(DadosListagemMedico::new);//converto o meu DTO em uma entity para buscar no banco
         }
- 
+
         /*
         @GetMapping("{id}")
         public DadosListagemMedico buscarPorId(@PathVariable Long id){
