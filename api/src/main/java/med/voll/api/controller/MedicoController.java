@@ -6,6 +6,8 @@ import med.voll.api.medico.DadosListagemMedico;
 import med.voll.api.medico.Medico;
 import med.voll.api.medico.MedicoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -27,9 +29,11 @@ public class MedicoController {
         }
 
         @GetMapping
-        public List<DadosListagemMedico> buscarTodos(){ //preciso retornar um DTO, pois não quero retonar todos os atributos quando criado
+        public Page<DadosListagemMedico> buscarTodos(Pageable paginacao){ //preciso retornar um DTO, pois não quero retonar todos os atributos quando criado
                                                                                                         //e posso passar apenas o que desejar
-                return repository.findAll().stream().map(DadosListagemMedico::new).toList();//converto o meu DTO em uma entity para buscar no banco
+                return repository
+                        .findAll(paginacao)
+                        .map(DadosListagemMedico::new);//converto o meu DTO em uma entity para buscar no banco
         }
 
         /*
@@ -39,7 +43,7 @@ public class MedicoController {
                         .findById(id)
                         .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
         }
-*/
+        */
 
 
 
