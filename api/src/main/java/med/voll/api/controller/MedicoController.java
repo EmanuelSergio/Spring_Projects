@@ -30,7 +30,7 @@ public class MedicoController {
         public Page<DadosListagemMedico> buscarTodos(@PageableDefault(size = 10, sort = {"nome"}) Pageable paginacao){ //preciso retornar um DTO, pois não quero retonar todos os atributos quando criado
                                                                                                         //e posso passar apenas o que desejar
                 return repository
-                        .findAll(paginacao)
+                        .findAllByAtivoTrue(paginacao)
                         .map(DadosListagemMedico::new);//converto o meu DTO em uma entity para buscar no banco
         }
 
@@ -49,6 +49,14 @@ public class MedicoController {
                 var medico = repository.getReferenceById(dados.id());
                 medico.atualizarInformacoes(dados);
         }
+
+        @DeleteMapping("/{id}")
+        @Transactional
+        public void excluir(@PathVariable Long id){
+                var medico = repository.getReferenceById(id);
+                medico.excluir();
+        }
+
 
 
 }

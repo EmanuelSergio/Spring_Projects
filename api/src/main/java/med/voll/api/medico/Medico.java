@@ -28,7 +28,11 @@ public class Medico {
     @Embedded                   // essa anotação faz com que os atributos da classe
     private Endereco endereco; //endereço estejam na mesma tabela do medico, porem em classes separadas
 
+
+    private Boolean ativo;
+
     public Medico(DadosCadastroMedico dados){
+        this.ativo=true;
         this.nome = dados.nome();
         this.email = dados.crm();
         this.telefone = dados.telefone();
@@ -53,4 +57,11 @@ public class Medico {
 
 
     }
+
+    public void excluir() {
+        this.ativo = false;
+    }
+
+
+
 }
