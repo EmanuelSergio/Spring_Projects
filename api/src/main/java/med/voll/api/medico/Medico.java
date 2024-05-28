@@ -12,7 +12,7 @@ import med.voll.api.endereco.Endereco;
 @Getter //criação com loombok
 @NoArgsConstructor //criação do construtor (sem argumentos) com loombok
 @AllArgsConstructor //criação do construtor (com argumentos) com loombok
-@EqualsAndHashCode(of = "id")
+@EqualsAndHashCode(of = "id") //gera automaticmanete o metodo equals e hashCode
 public class Medico {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
