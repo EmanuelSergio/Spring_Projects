@@ -1,6 +1,7 @@
 package med.voll.api.infra.security;
 
 import com.auth0.jwt.JWT;
+import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
 import med.voll.api.domain.usuario.Usuario;
@@ -25,8 +26,6 @@ public class TokenService {
             throw new IllegalArgumentException("Usuario não pode ser null");
         }
 
-
-
         try {
             var algoritmo= Algorithm.HMAC256(secret);
             return JWT.create()
@@ -39,6 +38,18 @@ public class TokenService {
             throw new RuntimeException("erro ao gerar o token jwt", exception);
         }
 
+    }
+
+    public String getSubject(String tokenJWT){
+        try {
+            var algoritmo= Algorithm.HMAC256(secret);
+            return JWT.require(algoritmo).withIssuer("API Voll.med")
+                    .build()
+                    .verify(tokenJWT)
+                    .getSubject();
+        } catch (JWTCreationException exception){
+            throw new RuntimeException("Token JWT inválido ou expirado!");
+        }
     }
 
     private Instant dataExpiracao() {

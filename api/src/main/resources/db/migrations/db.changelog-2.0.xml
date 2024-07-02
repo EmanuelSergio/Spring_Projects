@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <changeSet id="1" author="Emanuel">
+        <createTable tableName="consultas">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="medico_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="paciente_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="data" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint
+                baseColumnNames="medico_id"
+                baseTableName="consultas"
+                constraintName="fk_consultas_medico_id"
+                referencedColumnNames="id"
+                referencedTableName="medicos"/>
+
+        <addForeignKeyConstraint
+                baseColumnNames="paciente_id"
+                baseTableName="consultas"
+                constraintName="fk_consultas_paciente_id"
+                referencedColumnNames="id"
+                referencedTableName="pacientes"/>
+    </changeSet>
+
+</databaseChangeLog>
