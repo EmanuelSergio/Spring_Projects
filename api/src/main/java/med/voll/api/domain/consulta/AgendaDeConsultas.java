@@ -7,6 +7,9 @@ import med.voll.api.domain.paciente.PacienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
+
 @Service
 public class AgendaDeConsultas {
 
@@ -38,9 +41,28 @@ public class AgendaDeConsultas {
         //vou no repository e pego os objetos pelo id, esse metodo ele retorna um optional, então eu uso o get() para pegar o objeto
         var medico = escolherMedico(dados);
         var paciente = pacienteRepository.getReferenceById(dados.idPaciente());
-        var consulta = new Consulta(null, medico, paciente, dados.data());
+        var consulta = new Consulta(null, medico, paciente, dados.data(), null);
 
         consultaRepository.save(consulta);
+    }
+
+    public void cancelarConsulta(DadosCancelamentoConsulta dados){
+        var consulta = consultaRepository.getReferenceById(dados.id());
+        var horarioConsulta = consultaRepository.findDataById(dados.id());
+        
+        // Data e horário atual
+        LocalDateTime currentDateTime = LocalDateTime.now();
+
+        //horas antes de consulta
+        Duration antecedencia = Duration.between(currentDateTime, horarioConsulta.get(0));
+
+        if (antecedencia.toHours() < 24){
+            throw new ValidacaoExecption("antecedencia minima de 24 horas para cancelar a consulta");
+        }
+
+        //retorno:
+        consultaRepository.delete(consulta);
+
     }
 
     private Medico escolherMedico(DadosAgendamentoConsulta dados){
