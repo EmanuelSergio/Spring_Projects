@@ -49,7 +49,11 @@ public class AgendaDeConsultas {
     public void cancelarConsulta(DadosCancelamentoConsulta dados){
         var consulta = consultaRepository.getReferenceById(dados.id());
         var horarioConsulta = consultaRepository.findDataById(dados.id());
-        
+
+        if (!consultaRepository.existsById(dados.id())){
+            throw new ValidacaoExecption("id da consulta invalido");
+        }
+
         // Data e horário atual
         LocalDateTime currentDateTime = LocalDateTime.now();
 
@@ -62,6 +66,7 @@ public class AgendaDeConsultas {
 
         //retorno:
         consultaRepository.delete(consulta);
+        consulta.cancelar(dados.motivo());
 
     }
 
