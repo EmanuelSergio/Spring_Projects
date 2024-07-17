@@ -13,7 +13,8 @@ public interface ConsultaRepository extends JpaRepository<Consulta, Long> {
     List<LocalDateTime> findDataById(@Param("id") Long id);
 
 
-    Boolean existsByMedicoIdAndData(Long idMedico, LocalDateTime date);
+    boolean existsByMedicoIdAndData(Long idMedico, LocalDateTime date);
 
-    Boolean existsByPacienteIdAndDataBetween(Long aLong, LocalDateTime primeiroHorario, LocalDateTime ultimoHorario);
+    boolean existsByPacienteIdAndDataBetween(Long pacienteId, LocalDateTime inicio, LocalDateTime fim);
+
 }
